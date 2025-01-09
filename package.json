@@ -1,0 +1,12 @@
+{
+  "name": "binarysearchtrees-odinproject",
+  "version": "1.0.0",
+  "description": "Reposity for learn to make BTS with instruction from Odin Project",
+  "main": "BTS.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yasir",
+  "license": "ISC",
+  "type": "module"
+}
