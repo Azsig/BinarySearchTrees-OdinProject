@@ -76,6 +76,15 @@ function Tree(array){
 
   }
 
+  let succ = (value) => {
+    value = value.right
+    while(value != null && value.left != null){
+      value = value.left
+    }
+    return value
+
+  }
+
   let remove = (value, node=root) => {
     if(node == null){
       return node
@@ -97,9 +106,14 @@ function Tree(array){
       }
 
       let succ = getSuccesor(node)
+      node.data = succ.data;
+      node.right = remove(succ.data,node.right);
 
     }
+    return node
   }
 
       
 }
+
+  
