@@ -23,6 +23,7 @@ function Tree(array){
   };
   const buildTree = (arr = array) =>{
     let processedArray = sorterAndDupRemover(arr);
+    console.log(processedArray)
     
     root = sortedArrayToBST(processedArray);
 
@@ -35,7 +36,7 @@ function Tree(array){
       return null
     }
 
-    let mid = Math.floor((end - start)/2);
+    let mid = start + Math.floor((end - start)/2);
 
     let rootBTS = Node(arr[mid]);
 
@@ -49,7 +50,8 @@ function Tree(array){
 
   const sorterAndDupRemover = (arr = array) => {
     let array1 = arr;
-    array1.sort();
+    array1.sort(function(a, b){return (a-b)});
+    console.log(array1);
     let s = new Set(array1);
     let newArray = [...s];
 
@@ -66,13 +68,14 @@ function Tree(array){
     }
 
     if(value > node.data){
-      insert(value, node.right)
+      node.right = insert(value, node.right)
     }
     else if(value < node.data){
-      insert(value, node.left);
+      node.left = insert(value, node.left);
     }
 
-    return node
+    root = node
+    return root
 
   }
 
@@ -145,7 +148,7 @@ function Tree(array){
     levelOrder(callback, qeue)
   }
 
-  function inOrder(callback, node){
+  function inOrder(callback, node = root){
     if(!callback){
       return new Error("Need callback function")
     };
@@ -157,18 +160,18 @@ function Tree(array){
     
   }
 
-  function preOrder(callback, node){
+  function preOrder(callback, node = root){
     if(!callback){
       return new Error("Need callback function")
     };
     if(node != null){
-      callback(node);
-      preOrder(node.left);
-      preOrder(node.right);
+      callback(node)
+      preOrder(callback, node.left);
+      preOrder(callback, node.right);
     }
   }
 
-  function postOrder(callback, node){
+  function postOrder(callback, node = root){
     if(!callback){
       return new Error("Need callback function")
     };
@@ -207,6 +210,7 @@ function Tree(array){
     let nodeRight = node.right;
     let leftCount = 0;
     let rightCount = 0;
+    let nodeheight = height(root);
 
     while(nodeLeft != null){
       nodeLeft = nodeLeft.left;
@@ -217,7 +221,7 @@ function Tree(array){
       rightCount++;
     }
 
-    if(leftCount - rightCount <= 1 || rightCount - leftCount <=1){
+    if(nodeheight - rightCount <= 1 || nodeheight - leftCount <=1){
       return "Balance"
     }
     else{
@@ -227,13 +231,23 @@ function Tree(array){
 
   function reBalance(){
     let allValue = []
-
+    let pushing
     inOrder(pushing = (value) => allValue.push(value),root );
 
     root = sortedArrayToBST(allValue)
   }
 
-      
+
+  buildTree(array);
+
+  return{isBalance, reBalance, remove, postOrder, preOrder, inOrder, prettyPrint, height, depth, find, insert, levelOrder};
 }
+
+export{Tree};
+  
+
+      
+
+
 
   
